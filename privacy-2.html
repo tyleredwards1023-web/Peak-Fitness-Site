@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Peak Fitness</title>
+    <link rel="canonical" href="https://peakfitnessapp.com/privacy">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0b0f;
+            --bg-secondary: #12141c;
+            --bg-card: #181a24;
+            --accent: #00d4ff;
+            --accent-purple: #a855f7;
+            --text-primary: #f0f2f8;
+            --text-secondary: #8b8fa4;
+            --text-muted: #555872;
+            --border: rgba(255, 255, 255, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 20px 0;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 11, 15, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--text-primary); }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 32px 80px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li { margin-bottom: 6px; }
+
+        a { color: var(--accent); }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 48px 32px;
+        }
+
+        .footer-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--text-secondary); }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 480px) {
+            main { padding: 100px 20px 60px; }
+            h1 { font-size: 2rem; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="logo">
+            <span class="logo-icon">⛰</span>
+            Peak Fitness
+        </a>
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+</nav>
+
+<main>
+    <h1>Privacy Policy</h1>
+    <p class="last-updated">Last updated: March 4, 2026</p>
+
+    <p>Peak Fitness ("we", "our", or "the app") is developed and operated by No Pressure Just Results LLC. Your privacy is important to us. This policy explains how we handle your information.</p>
+
+    <h2>Information We Collect</h2>
+    <p>Peak Fitness is designed with privacy in mind. We collect as little data as possible.</p>
+    <ul>
+        <li><strong>Health & Fitness Data:</strong> Workout logs, body weight entries, cycle tracking data, and recovery check-ins are stored locally on your device using Apple's SwiftData framework. This data never leaves your device unless you explicitly export it.</li>
+        <li><strong>Apple HealthKit:</strong> If you choose to enable HealthKit integration, the app reads and writes workout and body weight data to Apple Health. This data is governed by Apple's privacy policies and is never accessed by us.</li>
+        <li><strong>Purchase Information:</strong> Subscription and in-app purchase transactions are handled entirely by Apple through the App Store. We do not collect or store your payment information.</li>
+    </ul>
+
+    <h2>Data Storage</h2>
+    <p>All your fitness data is stored locally on your device. We do not operate servers or cloud databases. Your data stays on your iPhone.</p>
+
+    <h2>Data Sharing</h2>
+    <p>We do not sell, share, or transmit your personal data to any third parties. Period.</p>
+
+    <h2>Analytics & Tracking</h2>
+    <p>Peak Fitness does not use any third-party analytics, tracking, or advertising SDKs. We do not track your behavior, collect device identifiers, or build user profiles.</p>
+
+    <h2>Apple HealthKit</h2>
+    <p>If you grant HealthKit permissions, Peak Fitness may read and write the following data types:</p>
+    <ul>
+        <li>Workout data (exercises, duration, calories)</li>
+        <li>Body weight measurements</li>
+    </ul>
+    <p>HealthKit data is never used for advertising or shared with third parties. HealthKit data is not stored outside of Apple's Health database and your local app data.</p>
+
+    <h2>Cycle Tracking</h2>
+    <p>Menstrual cycle data you enter is stored exclusively on your device. It is used only within the app to provide cycle-phase-aware training suggestions. This data is never transmitted externally.</p>
+
+    <h2>Children's Privacy</h2>
+    <p>Peak Fitness is not directed at children under 13. We do not knowingly collect personal information from children.</p>
+
+    <h2>Data Deletion</h2>
+    <p>You can delete all your data at any time from the app's Settings page under "Danger Zone" → "Delete All Data." Uninstalling the app also removes all locally stored data.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated date.</p>
+
+    <h2>Contact Us</h2>
+    <p>If you have questions about this Privacy Policy, contact us at:<br>
+    <a href="mailto:nopressureoc@gmail.com">nopressureoc@gmail.com</a></p>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <span class="footer-copy">© 2026 No Pressure Just Results LLC</span>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="mailto:nopressureoc@gmail.com">Contact</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

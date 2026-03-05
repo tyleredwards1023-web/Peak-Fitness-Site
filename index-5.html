@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peak Fitness — Train Smarter, Not Harder</title>
+    <meta name="description" content="Peak Fitness is a strength training app for women with cycle-synced training, smart progressive overload, and 500+ exercises.">
+    <link rel="canonical" href="https://peakfitnessapp.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0b0f;
+            --bg-secondary: #12141c;
+            --bg-card: #181a24;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.15);
+            --accent-pink: #ff3b8b;
+            --accent-purple: #a855f7;
+            --accent-green: #22d68a;
+            --accent-yellow: #fbbf24;
+            --text-primary: #f0f2f8;
+            --text-secondary: #8b8fa4;
+            --text-muted: #555872;
+            --border: rgba(255, 255, 255, 0.06);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Glow orbs */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.12), transparent 70%);
+            top: -100px; right: -100px;
+        }
+
+        .glow-orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.10), transparent 70%);
+            top: 400px; left: -150px;
+        }
+
+        .glow-orb-3 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255, 59, 139, 0.08), transparent 70%);
+            bottom: -200px; right: -200px;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 20px 0;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 11, 15, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            color: white !important;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.25);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 32px 80px;
+            overflow: hidden;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary svg {
+            width: 20px; height: 20px;
+        }
+
+        .btn-secondary {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            color: var(--text-primary);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 620px;
+            background: var(--bg-card);
+            border-radius: 44px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                0 0 0 8px rgba(255, 255, 255, 0.02),
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 0 120px rgba(0, 212, 255, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-mockup img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .phone-mockup-placeholder {
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, #1a1d2e, #12141c);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 40px;
+        }
+
+        .phone-mockup-placeholder .mock-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .phone-mockup-placeholder .mock-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .phone-float-card {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .float-card-1 {
+            top: 60px; left: -40px;
+            animation-delay: 0s;
+        }
+
+        .float-card-2 {
+            bottom: 80px; right: -50px;
+            animation-delay: 2s;
+        }
+
+        .float-card-inner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .float-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .float-card-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .float-card-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .float-card-sub {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Features */
+        section {
+            position: relative;
+            z-index: 1;
+        }
+
+        .features {
+            padding: 120px 32px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 64px;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--card-accent, var(--accent)), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        /* Stats */
+        .stats {
+            padding: 80px 32px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* Premium */
+        .premium {
+            padding: 120px 32px;
+            text-align: center;
+        }
+
+        .premium-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .premium-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(168, 85, 247, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            border-radius: 24px;
+            padding: 56px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-purple), var(--accent-pink));
+        }
+
+        .premium-card h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .premium-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .premium-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .premium-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .premium-feature .check {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 120px 32px;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 48px 32px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-secondary);
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero p { max-width: 100%; }
+
+            .hero-actions { justify-content: center; }
+
+            .hero-visual { order: -1; }
+
+            .phone-mockup { width: 240px; height: 500px; }
+
+            .phone-float-card { display: none; }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .stats-inner {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+
+            .premium-features {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links { display: none; }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero { padding: 100px 20px 60px; }
+            .features, .premium, .cta { padding: 80px 20px; }
+            .premium-card { padding: 36px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="logo">
+            <span class="logo-icon">⛰</span>
+            Peak Fitness
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#premium">Premium</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="#download" class="nav-cta">Download</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-badge">Now on the App Store</div>
+            <h1>Train <span class="gradient-text">Smarter</span>,<br>Not Harder.</h1>
+            <p>The strength training app built for women. Cycle-synced workouts, smart progressive overload, and 500+ exercises — all in one place.</p>
+            <div class="hero-actions">
+                <a href="#download" class="btn-primary" id="download">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    Download Free
+                </a>
+                <a href="#features" class="btn-secondary">Learn more →</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="phone-mockup">
+                <div class="phone-mockup-placeholder">
+                    <div class="mock-logo">Peak Fitness</div>
+                    <div class="mock-text">Your training companion</div>
+                </div>
+            </div>
+
+            <div class="phone-float-card float-card-1">
+                <div class="float-card-inner">
+                    <div class="float-icon" style="background: rgba(34, 214, 138, 0.15); color: #22d68a;">✓</div>
+                    <div class="float-card-text">
+                        <span class="float-card-title">PR Achieved!</span>
+                        <span class="float-card-sub">Bench Press — 135 lbs</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phone-float-card float-card-2">
+                <div class="float-card-inner">
+                    <div class="float-icon" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">🌙</div>
+                    <div class="float-card-text">
+                        <span class="float-card-title">Luteal Phase</span>
+                        <span class="float-card-sub">Reduce intensity 10%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="features" id="features">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div class="section-label">✦ Features</div>
+        <h2 class="section-title">Everything you need to crush your goals.</h2>
+        <p class="section-subtitle">From your first squat to your hundredth PR — Peak Fitness adapts to you.</p>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card" style="--card-accent: #00d4ff;">
+            <div class="feature-icon" style="background: rgba(0, 212, 255, 0.1); color: var(--accent);">🏋️</div>
+            <h3>500+ Exercises</h3>
+            <p>Barbell, dumbbell, cable, machine, bodyweight, kettlebell, stability ball, medicine ball, bosu ball — and isometric holds with live timers.</p>
+        </div>
+
+        <div class="feature-card" style="--card-accent: #a855f7;">
+            <div class="feature-icon" style="background: rgba(168, 85, 247, 0.1); color: var(--accent-purple);">🔄</div>
+            <h3>Smart Progressive Overload</h3>
+            <p>Automatically suggests weight increases based on your performance history. Hit your reps? We'll nudge you to level up.</p>
+        </div>
+
+        <div class="feature-card" style="--card-accent: #ff3b8b;">
+            <div class="feature-icon" style="background: rgba(255, 59, 139, 0.1); color: var(--accent-pink);">🌸</div>
+            <h3>Cycle-Synced Training</h3>
+            <p>Track your menstrual cycle and get phase-aware training adjustments. Your workouts adapt to your body's natural rhythm.</p>
+        </div>
+
+        <div class="feature-card" style="--card-accent: #22d68a;">
+            <div class="feature-icon" style="background: rgba(34, 214, 138, 0.1); color: var(--accent-green);">📊</div>
+            <h3>Charts & Analytics</h3>
+            <p>Volume tracking, strength trends, personal records, and body weight charts. See your progress over weeks and months.</p>
+        </div>
+
+        <div class="feature-card" style="--card-accent: #fbbf24;">
+            <div class="feature-icon" style="background: rgba(251, 191, 36, 0.1); color: var(--accent-yellow);">⚡</div>
+            <h3>Recovery Readiness</h3>
+            <p>Daily check-ins on sleep, energy, and soreness power Smart Readiness — adjusting your workout intensity automatically.</p>
+        </div>
+
+        <div class="feature-card" style="--card-accent: #00d4ff;">
+            <div class="feature-icon" style="background: rgba(0, 212, 255, 0.1); color: var(--accent);">🧘</div>
+            <h3>Session Logging</h3>
+            <p>Not just weights — log Pilates, yoga, cardio, and more with duration and intensity to keep your full training picture.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+    <div class="stats-inner">
+        <div>
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Exercises</div>
+        </div>
+        <div>
+            <div class="stat-number">9</div>
+            <div class="stat-label">Equipment Types</div>
+        </div>
+        <div>
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Muscle Groups</div>
+        </div>
+        <div>
+            <div class="stat-number">∞</div>
+            <div class="stat-label">Workout Templates</div>
+        </div>
+    </div>
+</section>
+
+<!-- Premium -->
+<section class="premium" id="premium">
+    <div class="premium-inner">
+        <div class="section-label">👑 Premium</div>
+        <div class="premium-card">
+            <h2>Unlock Your Full Potential</h2>
+            <p>Free users get the full exercise library, workout tracking, and session logging. Premium takes it further.</p>
+
+            <div class="premium-features">
+                <div class="premium-feature"><span class="check">✓</span> RIR Tracking</div>
+                <div class="premium-feature"><span class="check">✓</span> Smart Readiness</div>
+                <div class="premium-feature"><span class="check">✓</span> Auto-Adjust Weights</div>
+                <div class="premium-feature"><span class="check">✓</span> Charts & Analytics</div>
+                <div class="premium-feature"><span class="check">✓</span> Auto-Progress Weight</div>
+                <div class="premium-feature"><span class="check">✓</span> Data Export</div>
+                <div class="premium-feature"><span class="check">✓</span> Unlimited Templates</div>
+                <div class="premium-feature"><span class="check">✓</span> 7-Day Free Trial</div>
+            </div>
+
+            <a href="#download" class="btn-primary">Start Free Trial</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="download">
+    <div class="glow-orb glow-orb-3"></div>
+    <h2>Ready to reach your <span class="gradient-text">peak</span>?</h2>
+    <p>Download Peak Fitness for free and start training smarter today.</p>
+    <a href="#" class="btn-primary" id="app-store-link">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on the App Store
+    </a>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-inner">
+        <span class="footer-copy">© 2026 No Pressure Just Results LLC</span>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="mailto:nopressureoc@gmail.com">Contact</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
